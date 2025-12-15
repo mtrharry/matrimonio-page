@@ -572,3 +572,58 @@ body{
   color: var(--ink);
   margin: 4px 0;
 }
+/* ===== DETALLES (Dress code + No niños) ===== */
+.details-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+@media (min-width: 720px){
+  .details-grid{ grid-template-columns: 1fr 1fr; }
+}
+
+.detail-card{
+  text-align:center;
+  background: rgba(216,167,177,.14);
+  border: 1px solid rgba(216,167,177,.45);
+  border-radius: 16px;
+  padding: 18px 16px;
+}
+
+.detail-icon{
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.detail-title{
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: var(--rose-dark);
+  letter-spacing: .03em;
+}
+
+.detail-text{
+  margin: 0;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.detail-note{
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-style: italic;
+}
+.detail-icon{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom: 8px;
+}
+
+.detail-icon img{
+  width: 60px;
+  height: auto;
+  opacity: .85;
+}
