@@ -389,3 +389,186 @@ body{
 .memory.active{
   opacity: 1;
 }
+/* ===== INTRO SOBRE (pantalla completa) ===== */
+.intro{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top, var(--paper), var(--paper2));
+  padding: 22px;
+}
+
+.intro-card{
+  width: min(420px, 92vw);
+  text-align:center;
+}
+
+.intro-title{
+  margin: 0;
+  font-family:"Cormorant Garamond", serif;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.intro-sub{
+  margin: 2px 0 18px;
+  font-family:"Great Vibes", cursive;
+  font-size: 56px;
+  color: rgba(0,0,0,.55);
+}
+
+.tap-hint{
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ===== SOBRE ===== */
+.envelope{
+  position: relative;
+  width: 260px;
+  height: 170px;
+  margin: 0 auto;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+}
+
+/* Rectángulo base */
+.env-back{
+  position:absolute;
+  inset:0;
+  background: rgba(216,167,177,.55);
+  border: 1px solid rgba(181,123,135,.45);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.15);
+}
+
+/* Triángulo delantero */
+.env-front{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height: 0;
+  border-left: 130px solid transparent;
+  border-right: 130px solid transparent;
+  border-top: 95px solid rgba(181,123,135,.45);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+/* Tapa (flap) que se abre */
+.env-flap{
+  position:absolute;
+  left:0; right:0; top:0;
+  height: 0;
+  border-left: 130px solid transparent;
+  border-right: 130px solid transparent;
+  border-bottom: 95px solid rgba(216,167,177,.9);
+  transform-origin: top;
+  transform: rotateX(0deg);
+  transition: transform .8s ease;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,.12));
+}
+
+/* Carta dentro */
+.letter{
+  position:absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  height: 125px;
+  background: #fff;
+  border-radius: 12px;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: transform .9s ease, opacity .6s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.letter-text{
+  margin:0;
+  color: var(--rose-dark);
+  font-weight: 600;
+}
+
+/* ===== Estado ABIERTO ===== */
+.envelope.open .env-flap{
+  transform: rotateX(170deg);
+}
+
+.envelope.open .letter{
+  transform: translateY(-10px);
+  opacity: 1;
+}
+
+/* Fade out del intro */
+.intro.fade-out{
+  animation: introOut .8s ease forwards;
+}
+@keyframes introOut{
+  to{ opacity:0; transform: scale(1.03); }
+}
+/* ===== FAMILIA ===== */
+.family{
+  text-align: center;
+}
+
+.family-intro{
+  font-size: 20px;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+
+.family-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+@media (min-width: 640px){
+  .family-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.family-card{
+  background: rgba(216,167,177,.12);
+  border: 1px solid rgba(216,167,177,.45);
+  border-radius: 16px;
+  padding: 20px 18px;
+}
+
+.family-block{
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  padding: 20px 18px;
+  margin-bottom: 16px;
+}
+
+.family-title{
+  font-family: "Great Vibes", cursive;
+  font-size: 38px;
+  color: var(--rose-dark);
+  margin: 0 0 10px;
+}
+
+.family-name{
+  font-size: 18px;
+  color: var(--ink);
+  margin: 4px 0;
+}

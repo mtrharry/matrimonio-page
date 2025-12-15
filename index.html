@@ -12,11 +12,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- INTRO SOBRE -->
+<div id="intro" class="intro">
+  <div class="intro-card">
+    <p class="intro-title">Invitación</p>
+    <p class="intro-sub">Digital</p>
+
+    <div id="envelope" class="envelope" aria-label="Abrir invitación" role="button" tabindex="0">
+      <div class="env-back"></div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="letter">
+        <p class="letter-text">Carlos ♥ Iris</p>
+      </div>
+    </div>
+
+    <p class="tap-hint">Toca el sobre para abrir</p>
+  </div>
+</div>
+
+
   <main class="paper">
     
-    <button id="music-btn" class="music-btn">
-    🔊 Activar música
-    </button>
+    
 
     <!-- PORTADA -->
     <section class="section hero">
@@ -32,20 +50,14 @@
       <h2 class="small-title">¡NOS CASAMOS!</h2>
 
       <!-- CAMBIA LOS NOMBRES AQUÍ -->
-      <h1 class="names">Karen <span class="heart">♥</span> Luis</h1>
+      <h1 class="names">Carlos <span class="heart">♥</span> Iris</h1>
 
       <!-- video PRINCIPAL -->
       <div class="photo-frame">
-        <video
-            class="photo"
-            controls
-            preload="metadata"
-            playsinline
-        >
-            <source src="portada.mp4" type="video/mp4">
-            Tu navegador no soporta video.
-        </video>
-       </div>
+        <video id="heroVideo" class="photo" controls preload="metadata" playsinline>
+          <source src="portada.mp4" type="video/mp4">
+          </video>
+      </div>
 
 
 
@@ -59,7 +71,7 @@
       <h2 class="script-title">Nuestra Boda</h2>
       <div class="rings">💍💍</div>
 
-      <p class="date">30 de enero del 2025</p>
+      <p class="date">30 de enero del 2026</p>
       <p class="muted">Falta poco</p>
 
       <div class="countdown" id="countdown">
@@ -85,38 +97,46 @@
       <p class="verse-ref">1 Corintios 13:7</p>
     </section>
 
-    <!-- PADRES / PADRINOS / TESTIGOS -->
-    <section class="section">
-      <div class="banner">Con la bendición de Dios y nuestros padres</div>
+   
+    <!-- FAMILIA -->
+    <section class="section family">
+      <p class="family-intro">
+        Con la bendición de Dios y el amor de nuestras familias
+      </p>
 
-      <div class="grid-2">
-        <div class="card">
-          <h3 class="card-title">Padres</h3>
-          <ul class="list">
-            <li><strong>Carlos & Iris</strong></li>
-            <li>Maria Álvarez Pinillos</li>
-            <li>Mercedes Palacios Nazario</li>
-            <li class="space"></li>
-            <li>Maria Isabel Alvarado Azabache</li>
-            <li>Carlos Nazario Morales</li>
-          </ul>
+      <div class="family-grid">
+
+        <!-- Padres del Novio -->
+        <div class="family-card">
+          <h3 class="family-title">Padres del Novio</h3>
+          <p class="family-name">María Álvarez Pinillos</p>
+          <p class="family-name">Mercedes Palacios Nazario</p>
         </div>
 
-        <div class="card">
-          <h3 class="card-title">Padrinos</h3>
-          <ul class="list">
-            <li>Flor Palacios Alvarez</li>
-            <li>Richard Tapia Zavaleta</li>
-          </ul>
-
-          <h3 class="card-title mt">Testigos</h3>
-          <ul class="list">
-            <li>Diana Álvarez Iparraguirre</li>
-            <li>Osver Varas Principe</li>
-          </ul>
+        <!-- Padres de la Novia -->
+        <div class="family-card">
+          <h3 class="family-title">Padres de la Novia</h3>
+          <p class="family-name">María Isabel Alvarado Azabache</p>
+          <p class="family-name">Carlos Nazario Morales</p>
         </div>
+
+      </div>
+
+      <!-- Padrinos -->
+      <div class="family-block">
+        <h3 class="family-title">Padrinos</h3>
+        <p class="family-name">Flor Palacios Alvarez</p>
+        <p class="family-name">Richard Tapia Zavaleta</p>
+      </div>
+
+      <!-- Testigos -->
+      <div class="family-block">
+        <h3 class="family-title">Testigos</h3>
+        <p class="family-name">Diana Álvarez Iparraguirre</p>
+        <p class="family-name">Osver Varas Principe</p>
       </div>
     </section>
+
 
     <!-- RECEPCIÓN -->
     <section class="section">
@@ -186,10 +206,6 @@
       </div>
     </section>
   </main>
-<audio id="bg-music" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
 
   <script src="script.js"></script>
 </body>

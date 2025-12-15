@@ -48,31 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   items.forEach(s => io.observe(s));
 
-  // Música de fondo
-  const music = document.getElementById("bg-music");
-  const musicBtn = document.getElementById("music-btn");
-
-  let isPlaying = false;
-
-  if (music && musicBtn) {
-    musicBtn.addEventListener("click", async () => {
-      try {
-        if (!isPlaying) {
-          await music.play();
-          musicBtn.textContent = "🔇 Pausar música";
-          musicBtn.classList.add("playing");
-        } else {
-          music.pause();
-          musicBtn.textContent = "🔊 Activar música";
-          musicBtn.classList.remove("playing");
-        }
-        isPlaying = !isPlaying;
-      } catch (e) {
-        // Si el navegador bloquea por alguna razón
-        alert("Toca nuevamente para activar el sonido.");
-      }
-    });
-  }
+ 
 });
 // Slider automático de recuerdos
 const memories = document.querySelectorAll(".memory");
@@ -84,4 +60,48 @@ if (memories.length > 0) {
     currentMemory = (currentMemory + 1) % memories.length;
     memories[currentMemory].classList.add("active");
   }, 3000); // cambia cada 3 segundos
+}
+// ===== Intro Sobre =====
+const intro = document.getElementById("intro");
+const envelope = document.getElementById("envelope");
+const main = document.querySelector("main.paper");
+
+// Oculta la invitación hasta abrir
+if (main) main.style.display = "none";
+
+function openInvitation(){
+  envelope.style.pointerEvents = "none";
+  setTimeout(() => {
+    intro.remove();
+    if (main) main.style.display = "";
+    window.scrollTo(0, 0);
+
+    // intentar reproducir el video al abrir
+    const v = document.getElementById("heroVideo");
+    if (v) {
+      v.muted = false;   // si quieres audio, déjalo así
+      v.play().catch(()=>{});
+    }
+  }, 1700);
+
+  if (!envelope || !intro) return;
+
+  envelope.classList.add("open");
+
+  setTimeout(() => {
+    intro.classList.add("fade-out");
+  }, 900);
+
+  setTimeout(() => {
+    intro.remove();
+    if (main) main.style.display = "";
+    window.scrollTo(0, 0);
+  }, 1700);
+}
+
+if (envelope) {
+  envelope.addEventListener("click", openInvitation);
+  envelope.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") openInvitation();
+  });
 }
