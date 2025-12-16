@@ -1,6 +1,5 @@
-// Cuenta regresiva hasta: 30 de enero 2025 16:30 (hora local del dispositivo)
+// Cuenta regresiva
 const target = new Date(2026, 0, 30, 16, 30, 0);
-
 
 function pad(n){ return String(n).padStart(2, "0"); }
 
@@ -9,11 +8,10 @@ function tick(){
   let diff = target.getTime() - now.getTime();
 
   if (diff < 0) {
-  document.getElementById("countdown").innerHTML =
-    "<p style='text-align:center;font-weight:600;'>¡Hoy es el gran día! 💍✨</p>";
-  return;
-}
-
+    document.getElementById("countdown").innerHTML =
+      "<p style='text-align:center;font-weight:600;'>¡Hoy es el gran día! 💍✨</p>";
+    return;
+  }
 
   const totalSeconds = Math.floor(diff / 1000);
   const days = Math.floor(totalSeconds / (3600 * 24));
@@ -21,22 +19,17 @@ function tick(){
   const mins = Math.floor((totalSeconds % 3600) / 60);
   const secs = totalSeconds % 60;
 
-  const dEl = document.getElementById("d");
-  const hEl = document.getElementById("h");
-  const mEl = document.getElementById("m");
-  const sEl = document.getElementById("s");
-
-  if (dEl) dEl.textContent = pad(days);
-  if (hEl) hEl.textContent = pad(hours);
-  if (mEl) mEl.textContent = pad(mins);
-  if (sEl) sEl.textContent = pad(secs);
+  document.getElementById("d").textContent = pad(days);
+  document.getElementById("h").textContent = pad(hours);
+  document.getElementById("m").textContent = pad(mins);
+  document.getElementById("s").textContent = pad(secs);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   tick();
   setInterval(tick, 1000);
 
-  // Animaciones al hacer scroll
+  // reveal
   const items = document.querySelectorAll(".section");
   items.forEach(s => s.classList.add("reveal"));
 
@@ -48,60 +41,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
   items.forEach(s => io.observe(s));
 
- 
-});
-// Slider automático de recuerdos
-const memories = document.querySelectorAll(".memory");
-let currentMemory = 0;
+  // Música
+  const music = document.getElementById("bg-music");
+  const musicBtn = document.getElementById("music-btn");
+  let isPlaying = false;
 
-if (memories.length > 0) {
-  setInterval(() => {
-    memories[currentMemory].classList.remove("active");
-    currentMemory = (currentMemory + 1) % memories.length;
-    memories[currentMemory].classList.add("active");
-  }, 3000); // cambia cada 3 segundos
-}
-// ===== Intro Sobre =====
-const intro = document.getElementById("intro");
-const envelope = document.getElementById("envelope");
-const main = document.querySelector("main.paper");
+  if (music && musicBtn) {
+    musicBtn.addEventListener("click", async () => {
+      try {
+        if (!isPlaying) {
+          await music.play();
+          musicBtn.textContent = "🔇 Pausar música";
+          musicBtn.classList.add("playing");
+        } else {
+          music.pause();
+          musicBtn.textContent = "🔊 Activar música";
+          musicBtn.classList.remove("playing");
+        }
+        isPlaying = !isPlaying;
+      } catch (e) {
+        alert("Toca nuevamente para activar el sonido.");
+      }
+    });
+  }
 
-// Oculta la invitación hasta abrir
-if (main) main.style.display = "none";
+  // Intro sobre
+  const intro = document.getElementById("intro");
+  const envelope = document.getElementById("envelope");
+  const main = document.querySelector("main.paper");
 
-function openInvitation(){
-  envelope.style.pointerEvents = "none";
-  setTimeout(() => {
-    intro.remove();
-    if (main) main.style.display = "";
-    window.scrollTo(0, 0);
+  if (main) main.style.display = "none";
 
-    // intentar reproducir el video al abrir
-    const v = document.getElementById("heroVideo");
-    if (v) {
-      v.muted = false;   // si quieres audio, déjalo así
-      v.play().catch(()=>{});
-    }
-  }, 1700);
-
+  function openInvitation(){
   if (!envelope || !intro) return;
 
+  envelope.style.pointerEvents = "none";
   envelope.classList.add("open");
+  setTimeout(() => intro.classList.add("fade-out"), 900);
 
-  setTimeout(() => {
-    intro.classList.add("fade-out");
-  }, 900);
-
-  setTimeout(() => {
+  setTimeout(async () => {
     intro.remove();
     if (main) main.style.display = "";
     window.scrollTo(0, 0);
+
+    // ✅ Intentar iniciar música al entrar
+    if (music && musicBtn) {
+      try {
+        await music.play();
+        isPlaying = true;
+        musicBtn.textContent = "🔇 Pausar música";
+        musicBtn.classList.add("playing");
+      } catch (e) {
+        // Si el navegador bloquea autoplay, el botón queda para que el usuario la active
+        isPlaying = false;
+        musicBtn.textContent = "🔊 Activar música";
+        musicBtn.classList.remove("playing");
+      }
+    }
   }, 1700);
 }
 
-if (envelope) {
-  envelope.addEventListener("click", openInvitation);
-  envelope.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") openInvitation();
-  });
-}
+
+  if (envelope) {
+    envelope.addEventListener("click", openInvitation);
+    envelope.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") openInvitation();
+    });
+  }
+
+  // Slider recuerdos
+  const memories = document.querySelectorAll(".memory");
+  let currentMemory = 0;
+
+  if (memories.length > 0) {
+    setInterval(() => {
+      memories[currentMemory].classList.remove("active");
+      currentMemory = (currentMemory + 1) % memories.length;
+      memories[currentMemory].classList.add("active");
+    }, 3000);
+  }
+});

@@ -18,7 +18,7 @@
     <p class="intro-title">Invitación</p>
     <p class="intro-sub">Digital</p>
 
-    <<div id="envelope" class="envelope" aria-label="Abrir invitación" role="button" tabindex="0">
+   <div id="envelope" class="envelope" aria-label="Abrir invitación" role="button" tabindex="0">
   <div class="env-back"></div>
 
   <div class="env-flap"></div>
@@ -65,11 +65,11 @@
       <h1 class="names">Carlos <span class="heart">♥</span> Iris</h1>
 
       <!-- video PRINCIPAL -->
-      <div class="photo-frame">
-        <video id="heroVideo" class="photo" controls preload="metadata" playsinline>
-          <source src="portada.mp4" type="video/mp4">
-          </video>
+      <div class="hero-media">
+        <img class="hero-img" src="portada.png" alt="Portada">
       </div>
+
+
 
 
 
@@ -77,7 +77,7 @@
         “Nos encantaría celebrar este día tan especial en compañía de nuestra familia y amigos”
       </p>
     </section>
-
+    
     <!-- NUESTRA BODA + FECHA + COUNTDOWN -->
     <section class="section">
       <h2 class="script-title">Nuestra Boda</h2>
@@ -96,10 +96,9 @@
 
     <!-- SLIDER DE MOMENTOS -->
     <div class="memories">
-        <img src="momentos\1.jpeg" class="memory active" alt="Momento 1">
-        <img src="momentos\2.jpeg" class="memory" alt="Momento 2">
-        <img src="momentos\3.jpeg" class="memory" alt="Momento 3">
-        <img src="momentos\4.jpeg" class="memory" alt="Momento 4">
+        <img src="momentos/1.jpeg" class="memory active" alt="Momento 1">
+        <img src="momentos/2.jpeg" class="memory" alt="Momento 2">
+        <img src="momentos/3.jpeg" class="memory" alt="Momento 3">
     </div>
 
       <div class="divider"></div>
@@ -119,21 +118,20 @@
 
       <div class="family-grid">
 
-        <!-- Padres del Novio -->
         <div class="family-card">
-          <h3 class="family-title">Padres del Novio</h3>
+          <h3 class="family-title">Padres de la Novia</h3>
           <p class="family-name">María Álvarez Pinillos</p>
           <p class="family-name">Mercedes Palacios Nazario</p>
         </div>
 
-        <!-- Padres de la Novia -->
         <div class="family-card">
-          <h3 class="family-title">Padres de la Novia</h3>
+          <h3 class="family-title">Padres del Novio</h3>
           <p class="family-name">María Isabel Alvarado Azabache</p>
           <p class="family-name">Carlos Nazario Morales</p>
         </div>
 
       </div>
+
 
       <!-- Padrinos -->
       <div class="family-block">
@@ -204,11 +202,6 @@
            href="https://wa.me/51999999999?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20boda.%20Nombre%3A%20____">
           WhatsApp 1
         </a>
-
-        <a class="btn outline" target="_blank" rel="noopener"
-           href="https://wa.me/51999999999?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20boda.%20Nombre%3A%20____">
-          WhatsApp 2
-        </a>
       </div>
 
       <p class="script-big">Nos encantará compartir este momento contigo</p>
@@ -218,7 +211,7 @@
     <!-- CIERRE -->
     <section class="section">
       <div class="photo-frame">
-        <img class="photo" src="https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200&auto=format&fit=crop" alt="Foto final">
+        <img class="photo" src="/momentos/final.jpeg" alt="Foto final">
       </div>
 
       <!-- HASHTAG -->
@@ -233,6 +226,13 @@
       </div>
 
     </section>
+
+    <button id="music-btn" class="music-btn" type="button">🔊 Activar música</button>
+
+      <audio id="bg-music" loop preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
+      </audio>
+
   </main>
 
   <script src="script.js"></script>

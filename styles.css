@@ -806,3 +806,45 @@ body{
   .envelope{ animation:none; }
   .env-flap, .letter{ transition:none; }
 }
+
+
+/* ===== PORTADA sin recuadro, centrada y elegante ===== */
+.hero-media{
+  display:flex;
+  justify-content:center;
+  margin: 10px 0 6px;
+}
+
+.hero-img{
+  width: min(360px, 92%);
+  height: auto;
+  display:block;
+  border-radius: 0;      /* sin bordes redondeados */
+  box-shadow: none;      /* sin sombra */
+  border: none;          /* sin borde */
+  object-fit: contain;
+}
+/* ===== Separador global entre "páginas" (secciones) ===== */
+/* ===== Separador global entre "páginas" (secciones) ===== */
+.paper > .section{
+  position: relative;
+  padding-bottom: 30px;  /* más aire para el separador */
+  border-bottom: none;
+}
+
+.paper > .section:not(:last-of-type)::after{
+  content: "";
+  display: block;
+
+  /* ✅ MÁS GRANDE */
+  width: 80%;           /* ocupa TODO el ancho de la sección */
+  max-width: 520px;      /* o el ancho de tu "paper" */
+  height: 110px;         /* aumenta tamaño (prueba 90-140) */
+
+  margin: 18px auto 0;
+
+  background: url("icons/separador.png") no-repeat center;
+  background-size: 100% auto;   /* ✅ llena el ancho */
+  opacity: .95;
+  pointer-events: none;
+}
