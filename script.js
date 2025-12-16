@@ -99,25 +99,45 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }, 1700);
-}
-
-
-  if (envelope) {
-    envelope.addEventListener("click", openInvitation);
-    envelope.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") openInvitation();
-    });
   }
 
-  // Slider recuerdos
-  const memories = document.querySelectorAll(".memory");
-  let currentMemory = 0;
 
-  if (memories.length > 0) {
-    setInterval(() => {
-      memories[currentMemory].classList.remove("active");
-      currentMemory = (currentMemory + 1) % memories.length;
-      memories[currentMemory].classList.add("active");
-    }, 3000);
-  }
+    if (envelope) {
+      envelope.addEventListener("click", openInvitation);
+      envelope.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") openInvitation();
+      });
+    }
+
+    // Slider recuerdos
+    const memories = document.querySelectorAll(".memory");
+    let currentMemory = 0;
+
+    if (memories.length > 0) {
+      setInterval(() => {
+        memories[currentMemory].classList.remove("active");
+        currentMemory = (currentMemory + 1) % memories.length;
+        memories[currentMemory].classList.add("active");
+      }, 3000);
+    }
+  // 🔇 Pausar música al cambiar de pestaña / minimizar
+  document.addEventListener("visibilitychange", () => {
+    if (!music) return;
+    if (document.hidden) {
+      music.pause();
+      isPlaying = false;
+      if (musicBtn) {
+        musicBtn.textContent = "🔊 Activar música";
+        musicBtn.classList.remove("playing");
+      }
+    }
+  });
+
+  // 🔇 Pausar música al salir de la página (redirigir / cerrar)
+  window.addEventListener("pagehide", () => {
+    if (!music) return;
+    music.pause();
+    isPlaying = false;
+  });
+
 });
