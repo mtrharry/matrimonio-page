@@ -182,7 +182,7 @@ if (giftBtn && giftDetails) {
 
     giftBtn.classList.toggle("is-open", !isOpen);
     giftBtn.setAttribute("aria-expanded", String(!isOpen));
-    giftBtn.textContent = !isOpen ? "Ocultar datos" : "Ver datos";
+    giftBtn.textContent = !isOpen ? "Ocultar dirección" : "Ver dirección";
   });
 }
 
