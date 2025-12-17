@@ -139,5 +139,51 @@ document.addEventListener("DOMContentLoaded", () => {
     music.pause();
     isPlaying = false;
   });
+function setUiPaused(){
+  isPlaying = false;
+  if (musicBtn){
+    musicBtn.textContent = "🔊 Activar música";
+    musicBtn.classList.remove("playing");
+  }
+}
+
+function pauseMusic(){
+  if (!music) return;
+  music.pause();
+  setUiPaused();
+}
+
+// 1) Pausar al perder foco (muy efectivo cuando abres otra pestaña / app)
+window.addEventListener("blur", pauseMusic);
+
+// 2) Pausar ANTES de abrir enlaces externos (Maps / WhatsApp / cualquier target=_blank)
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a");
+  if (!a) return;
+
+  const href = a.getAttribute("href") || "";
+  const isExternal =
+    a.target === "_blank" ||
+    href.startsWith("http") ||
+    href.startsWith("https") ||
+    href.startsWith("mailto:") ||
+    href.startsWith("tel:");
+
+  if (isExternal) pauseMusic();
+}, true);
+// 🎁 Regalos: botón "Ver datos"
+const giftBtn = document.querySelector(".gift-btn");
+const giftDetails = document.getElementById("gift-details");
+
+if (giftBtn && giftDetails) {
+  giftBtn.addEventListener("click", () => {
+    const isOpen = !giftDetails.hidden;
+    giftDetails.hidden = isOpen;
+
+    giftBtn.classList.toggle("is-open", !isOpen);
+    giftBtn.setAttribute("aria-expanded", String(!isOpen));
+    giftBtn.textContent = !isOpen ? "Ocultar datos" : "Ver datos";
+  });
+}
 
 });
