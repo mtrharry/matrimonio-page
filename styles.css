@@ -847,48 +847,42 @@ body{
   pointer-events: none;
 }
 /* ===== Recepción: icono izquierda + info derecha ===== */
+/* CONTENEDOR RECEPCIÓN */
 .reception-container{
-  display: flex;
-  align-items: center;          /* centra verticalmente ambos */
-  justify-content: center;
-  gap: 22px;
-  flex-wrap: wrap;              /* en móvil baja a 1 columna si falta espacio */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(14px, 4vw, 32px);
 }
 
+/* COLUMNA ICONO */
 .reception-icon-col{
-  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* TAMAÑO DE LAS COPAS (RESPONSIVE) */
 .reception-icon-col img{
-  width: min(100px, 10vw); /* 👈 más pequeño */
+  width: clamp(110px, 18vw, 180px);
   height: auto;
-  margin-left: 2em;
 }
 
-
+/* COLUMNA TEXTO */
 .reception-info-col{
-  flex: 1 1 260px;
   display: flex;
   flex-direction: column;
-  align-items: center;          /* centra el título y el bloque */
+  justify-content: center;
 }
 
-.reception-info-col .script-title{
-  margin-bottom: 10px;
+/* ALINEACIÓN TEXTO */
+.align-left{
+  text-align: left;
 }
 
-/* Tu info-block ya es centrado, lo mantenemos así */
+/* BOTÓN MÁS PEQUEÑO */
 .small-btn{
-  width: 100%;
-  max-width: 260px;
-}
-
-/* En pantallas grandes: mantenlo en 2 columnas sí o sí */
-@media (min-width: 720px){
-  .reception-container{
-    flex-wrap: nowrap;
-  }
+  margin-top: 10px;
+  width: fit-content;
+  padding: 10px 18px;
 }
