@@ -595,10 +595,8 @@ body{
   padding: 18px 16px;
 }
 
-.detail-icon{
-  font-size: 28px;
-  margin-bottom: 6px;
-}
+/* Tu CSS existente */
+
 
 .detail-title{
   margin: 0 0 6px;
@@ -619,15 +617,15 @@ body{
   font-size: 16px;
   font-style: italic;
 }
+/* Tu CSS existente */
 .detail-icon{
   display:flex;
   justify-content:center;
   align-items:center;
   margin-bottom: 8px;
 }
-
 .detail-icon img{
-  width: 60px;
+  width: 60px; /* Forzará el icono a este tamaño, igual que el vestido */
   height: auto;
   opacity: .85;
 }
@@ -847,4 +845,50 @@ body{
   background-size: 100% auto;   /* ✅ llena el ancho */
   opacity: .95;
   pointer-events: none;
+}
+/* ===== Recepción: icono izquierda + info derecha ===== */
+.reception-container{
+  display: flex;
+  align-items: center;          /* centra verticalmente ambos */
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;              /* en móvil baja a 1 columna si falta espacio */
+}
+
+.reception-icon-col{
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reception-icon-col img{
+  width: min(100px, 10vw); /* 👈 más pequeño */
+  height: auto;
+  margin-left: 2em;
+}
+
+
+.reception-info-col{
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;          /* centra el título y el bloque */
+}
+
+.reception-info-col .script-title{
+  margin-bottom: 10px;
+}
+
+/* Tu info-block ya es centrado, lo mantenemos así */
+.small-btn{
+  width: 100%;
+  max-width: 260px;
+}
+
+/* En pantallas grandes: mantenlo en 2 columnas sí o sí */
+@media (min-width: 720px){
+  .reception-container{
+    flex-wrap: nowrap;
+  }
 }
