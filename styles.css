@@ -1091,3 +1091,60 @@ body{
   font-weight: 600;
   color: var(--rose-dark);
 }
+/* ===== Confirmación: inputs y botón más pro ===== */
+.confirm-form{
+  width: 100%;
+  max-width: 420px;
+  margin: 10px auto 0;
+  display: grid;
+  gap: 12px;
+}
+
+.confirm-form input{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(181,123,135,.35);
+  background: rgba(255,255,255,.82);
+  color: var(--ink);
+  font-size: 16px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .05s ease;
+}
+
+.confirm-form input::placeholder{
+  color: rgba(0,0,0,.45);
+}
+
+.confirm-form input:focus{
+  border-color: rgba(181,123,135,.75);
+  box-shadow: 0 0 0 4px rgba(216,167,177,.25);
+}
+
+.confirm-form .btn{
+  width: 100%;
+  max-width: none;
+}
+
+.confirm-form .btn:disabled{
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.form-msg{
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  color: var(--muted);
+  min-height: 22px;
+}
+
+.form-msg.ok{
+  color: #1f7a3a;
+  font-weight: 600;
+}
+
+.form-msg.err{
+  color: #b42318;
+  font-weight: 600;
+}

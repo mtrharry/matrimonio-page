@@ -187,35 +187,61 @@ if (giftBtn && giftDetails) {
 }
 const form = document.getElementById("confirm-form");
 const msg = document.getElementById("form-msg");
+// Confirmación (Google Apps Script)
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyQHfi5dyL0qVQUSmZldPQX4iMqZTI2BAf5WFmvgRyyiPGIVZrWo8nPXLEf3bigePEf-w/exec";
+
 
 if (form && msg) {
-  form.addEventListener("submit", () => {
-  msg.textContent = "Enviando...";
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  setTimeout(() => {
-    if (msg.textContent === "Enviando...") {
-      msg.textContent = "Confirmación enviada ✅ (si no cambió el mensaje, recarga la página).";
+    msg.textContent = "Enviando...";
+    msg.classList.remove("ok", "err");
+
+    const btn = form.querySelector("button[type='submit']");
+    const oldBtnText = btn ? btn.textContent : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
     }
-  }, 6000);
-});
 
+    try {
+      const fd = new FormData(form);
 
-  window.addEventListener("message", (event) => {
-    const data = event.data;
-    if (!data || typeof data !== "object") return;
+      const res = await fetch(WEBAPP_URL, { method: "POST", body: fd });
 
-    if (data.ok) {
-      form.reset();
-      msg.textContent =
-        data.status === "updated"
-          ? "Tu confirmación fue actualizada correctamente 💕"
-          : "¡Gracias por confirmar tu asistencia! 💕";
-    } else {
-      msg.textContent =
-        data.status === "faltan_campos"
-          ? "Completa nombre y teléfono."
-          : "Ocurrió un error, intenta nuevamente.";
+      // Si Apps Script responde algo que no es JSON, esto fallará (y cae al catch)
+      const data = await res.json();
+
+      if (data.ok) {
+        form.reset();
+        msg.textContent =
+          data.status === "updated"
+            ? "Tu confirmación fue actualizada correctamente 💕"
+            : "¡Gracias por confirmar tu asistencia! 💕";
+        msg.classList.add("ok");
+
+        if (btn) btn.textContent = "Enviado ✅";
+        setTimeout(() => {
+          if (btn) btn.textContent = oldBtnText || "Confirmar asistencia";
+        }, 2500);
+
+      } else {
+        msg.textContent =
+          data.status === "faltan_campos"
+            ? "Completa nombre y teléfono."
+            : "Ocurrió un error, intenta nuevamente.";
+        msg.classList.add("err");
+        if (btn) btn.textContent = oldBtnText;
+      }
+    } catch (err) {
+      msg.textContent = "No se pudo enviar. Revisa tu conexión e intenta otra vez.";
+      msg.classList.add("err");
+      if (btn) btn.textContent = oldBtnText;
+    } finally {
+      if (btn) btn.disabled = false;
     }
   });
 }
+
 });
