@@ -190,8 +190,15 @@ const msg = document.getElementById("form-msg");
 
 if (form && msg) {
   form.addEventListener("submit", () => {
-    msg.textContent = "Enviando...";
-  });
+  msg.textContent = "Enviando...";
+
+  setTimeout(() => {
+    if (msg.textContent === "Enviando...") {
+      msg.textContent = "Confirmación enviada ✅ (si no cambió el mensaje, recarga la página).";
+    }
+  }, 6000);
+});
+
 
   window.addEventListener("message", (event) => {
     const data = event.data;

@@ -1020,3 +1020,74 @@ body{
   text-align: left;
 }
 .gift-box p{ margin: 6px 0; }
+/* ===== CONFIRMACIÓN (FORM) – PREMIUM ===== */
+.confirm-form{
+  width: min(420px, 100%);
+  display: grid;
+  gap: 12px;
+  margin: 14px auto 0;
+}
+
+.confirm-form input{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(181,123,135,.35);
+  background: rgba(255,255,255,.75);
+  color: var(--ink);
+  font-size: 16px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .08s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+
+.confirm-form input::placeholder{
+  color: rgba(43,43,43,.45);
+}
+
+.confirm-form input:focus{
+  border-color: rgba(181,123,135,.75);
+  box-shadow: 0 0 0 4px rgba(216,167,177,.25), 0 10px 26px rgba(0,0,0,.08);
+}
+
+.confirm-form input:active{
+  transform: scale(0.998);
+}
+
+/* Quita flechas en algunos móviles/desktop */
+.confirm-form input[type="tel"]{
+  letter-spacing: .03em;
+}
+
+/* Botón de confirmar */
+.confirm-form button.btn{
+  width: 100%;
+  max-width: 420px;
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(181,123,135,.55);
+  background: linear-gradient(180deg, rgba(216,167,177,1), rgba(181,123,135,.95));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  box-shadow: 0 16px 40px rgba(0,0,0,.14);
+  transition: transform .12s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+.confirm-form button.btn:hover{
+  filter: brightness(.98);
+  box-shadow: 0 18px 46px rgba(0,0,0,.16);
+}
+
+.confirm-form button.btn:active{
+  transform: translateY(1px);
+}
+
+.form-msg{
+  min-height: 22px;
+  margin: 6px 0 0;
+  text-align: center;
+  font-weight: 600;
+  color: var(--rose-dark);
+}
