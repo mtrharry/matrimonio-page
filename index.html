@@ -260,16 +260,24 @@
 
       <div class="btn-row">
         <form id="confirm-form" class="confirm-form">
-
-
-
           <input type="text" name="principal" placeholder="Nombre del invitado/a" required>
           <input type="text" name="acompanante" placeholder="Nombre del acompañante (opcional)">
-          <input type="tel"  name="telefono" placeholder="Teléfono de contacto" required>
-
+          <input type="tel" name="telefono" placeholder="Teléfono de contacto" required>
           <button type="submit" class="btn outline">Confirmar asistencia</button>
+          <button id="edit-btn" type="button" class="btn outline" style="display:none;">
+          Editar datos
+           </button>
+
           <p id="form-msg" class="form-msg"></p>
         </form>
+
+
+
+        <iframe
+          name="rsvp-frame"
+          id="rsvp-frame"
+          style="display:none;width:0;height:0;border:0;"></iframe>
+
 
       </div>
 

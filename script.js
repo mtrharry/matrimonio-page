@@ -185,63 +185,165 @@ if (giftBtn && giftDetails) {
     giftBtn.textContent = !isOpen ? "Ocultar dirección" : "Ver dirección";
   });
 }
-const form = document.getElementById("confirm-form");
-const msg = document.getElementById("form-msg");
-// Confirmación (Google Apps Script)
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyQHfi5dyL0qVQUSmZldPQX4iMqZTI2BAf5WFmvgRyyiPGIVZrWo8nPXLEf3bigePEf-w/exec";
 
+const form   = document.getElementById("confirm-form");
+const msg    = document.getElementById("form-msg");
+const editBtn = document.getElementById("edit-btn");
+
+let isEditing = false;
+
+function normalizePhone(tel){
+  return String(tel || "").replace(/\D/g, "");
+}
+
+function getInput(name){
+  return form?.querySelector(`[name="${name}"]`);
+}
+
+function setMsgOk(text){
+  if (!msg) return;
+  msg.textContent = text;
+  msg.classList.remove("err");
+  msg.classList.add("ok");
+}
+
+function setMsgErr(text){
+  if (!msg) return;
+  msg.textContent = text;
+  msg.classList.remove("ok");
+  msg.classList.add("err");
+}
+
+function saveToStorage(data){
+  localStorage.setItem("rsvp_data", JSON.stringify(data));
+  localStorage.setItem("rsvp_sent_" + data.telefono, "1");
+}
+
+function loadStorage(){
+  try {
+    const raw = localStorage.getItem("rsvp_data");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setFormLocked(locked){
+  if (!form) return;
+
+  // Inputs: readOnly para que se vean pero no se editen
+  form.querySelectorAll("input").forEach(inp => {
+    inp.readOnly = locked;
+  });
+
+  // Botón submit
+  const submitBtn = form.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.disabled = locked;
+
+  // Botón editar visible solo cuando está bloqueado y hay datos guardados
+  if (editBtn) editBtn.style.display = locked ? "" : "none";
+}
+
+function fillFormFromStorage(data){
+  if (!form || !data) return;
+
+  const principal   = getInput("principal");
+  const acompanante = getInput("acompanante");
+  const telefono    = getInput("telefono");
+
+  if (principal) principal.value = data.principal || "";
+  if (acompanante) acompanante.value = data.acompanante || "";
+  if (telefono) telefono.value = data.telefono || "";
+
+  isEditing = false;
+  if (editBtn) editBtn.textContent = "Editar datos";
+  setFormLocked(true);
+}
 
 if (form && msg) {
-  form.addEventListener("submit", async (e) => {
+
+  // ✅ Al cargar la página: si hay data guardada, rellenar y bloquear
+  const stored = loadStorage();
+  if (stored && stored.telefono && localStorage.getItem("rsvp_sent_" + stored.telefono) === "1") {
+    fillFormFromStorage(stored);
+    setMsgOk("Usted ya ha enviado los invitados 💕");
+  } else {
+    setFormLocked(false);
+    if (editBtn) editBtn.style.display = "none";
+  }
+
+  // ✅ Botón Editar / Cancelar (SE REGISTRA 1 VEZ)
+  if (editBtn) {
+    editBtn.addEventListener("click", () => {
+      const storedNow = loadStorage();
+      if (!storedNow) return;
+
+      isEditing = !isEditing;
+
+      if (isEditing) {
+        setFormLocked(false);
+        editBtn.style.display = "";
+        editBtn.textContent = "Cancelar";
+        setMsgErr("Editando... (vuelve a enviar para guardar)");
+      } else {
+        fillFormFromStorage(storedNow);
+        setMsgOk("Usted ya ha enviado los invitados 💕");
+      }
+    });
+  }
+
+  // ✅ Submit
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    const fd = new FormData(form);
+
+    const principal   = String(fd.get("principal") || "").trim();
+    const acompanante = String(fd.get("acompanante") || "").trim();
+    const telefono    = normalizePhone(fd.get("telefono"));
+
+    if (!principal || !telefono) {
+      setMsgErr("Completa nombre y teléfono.");
+      return;
+    }
+
+    const key = "rsvp_sent_" + telefono;
+
+    // 🚫 Si ya envió con ese teléfono en ESTE dispositivo, bloquear
+    if (localStorage.getItem(key) === "1" && !isEditing) {
+      const stored2 = loadStorage();
+      if (stored2) fillFormFromStorage(stored2);
+      setMsgOk("Usted ya ha enviado los invitados 💕");
+      return;
+    }
+
+    // UI enviando
     msg.textContent = "Enviando...";
     msg.classList.remove("ok", "err");
 
-    const btn = form.querySelector("button[type='submit']");
-    const oldBtnText = btn ? btn.textContent : "";
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = "Enviando...";
+    const submitBtn = form.querySelector("button[type='submit']");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
     }
 
-    try {
-      const fd = new FormData(form);
+    // 📤 Envío (no-cors)
+    fetch(WEBAPP_URL, { method: "POST", body: fd, mode: "no-cors" });
 
-      const res = await fetch(WEBAPP_URL, { method: "POST", body: fd });
+    // ✅ Guardar y bloquear (UX)
+    setTimeout(() => {
+      const data = { principal, acompanante, telefono };
+      saveToStorage(data);
+      fillFormFromStorage(data);
 
-      // Si Apps Script responde algo que no es JSON, esto fallará (y cae al catch)
-      const data = await res.json();
+      setMsgOk(isEditing ? "Datos actualizados ✅" : "Confirmación enviada ✅");
+      isEditing = false;
 
-      if (data.ok) {
-        form.reset();
-        msg.textContent =
-          data.status === "updated"
-            ? "Tu confirmación fue actualizada correctamente 💕"
-            : "¡Gracias por confirmar tu asistencia! 💕";
-        msg.classList.add("ok");
-
-        if (btn) btn.textContent = "Enviado ✅";
-        setTimeout(() => {
-          if (btn) btn.textContent = oldBtnText || "Confirmar asistencia";
-        }, 2500);
-
-      } else {
-        msg.textContent =
-          data.status === "faltan_campos"
-            ? "Completa nombre y teléfono."
-            : "Ocurrió un error, intenta nuevamente.";
-        msg.classList.add("err");
-        if (btn) btn.textContent = oldBtnText;
-      }
-    } catch (err) {
-      msg.textContent = "No se pudo enviar. Revisa tu conexión e intenta otra vez.";
-      msg.classList.add("err");
-      if (btn) btn.textContent = oldBtnText;
-    } finally {
-      if (btn) btn.disabled = false;
-    }
+      if (submitBtn) submitBtn.textContent = "Confirmar asistencia";
+    }, 900);
   });
 }
+
 
 });
