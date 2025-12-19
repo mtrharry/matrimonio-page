@@ -185,5 +185,30 @@ if (giftBtn && giftDetails) {
     giftBtn.textContent = !isOpen ? "Ocultar dirección" : "Ver dirección";
   });
 }
+const form = document.getElementById("confirm-form");
+const msg = document.getElementById("form-msg");
 
+if (form && msg) {
+  form.addEventListener("submit", () => {
+    msg.textContent = "Enviando...";
+  });
+
+  window.addEventListener("message", (event) => {
+    const data = event.data;
+    if (!data || typeof data !== "object") return;
+
+    if (data.ok) {
+      form.reset();
+      msg.textContent =
+        data.status === "updated"
+          ? "Tu confirmación fue actualizada correctamente 💕"
+          : "¡Gracias por confirmar tu asistencia! 💕";
+    } else {
+      msg.textContent =
+        data.status === "faltan_campos"
+          ? "Completa nombre y teléfono."
+          : "Ocurrió un error, intenta nuevamente.";
+    }
+  });
+}
 });

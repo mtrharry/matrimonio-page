@@ -254,20 +254,34 @@
     <section class="section">
       <h2 class="script-title">Confirmación</h2>
       <p class="center-text">
-        Tu presencia es importante para nosotros. Por favor confírmanos tu asistencia por WhatsApp.
+        Tu presencia es importante para nosotros.
+        Cada invitación es válida para <strong>1 persona + 1 acompañante</strong>.
       </p>
 
       <div class="btn-row">
-        <!-- CAMBIA LOS NÚMEROS (formato internacional) -->
-        <a class="btn outline" target="_blank" rel="noopener"
-           href="https://wa.me/56968258600?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20boda.%20Nombre%3A%20____">
-          WhatsApp Confirmación
-        </a>
+        <form
+          id="confirm-form"
+          class="confirm-form"
+          action="https://script.google.com/macros/s/AKfycbynEw9wMs2fJ1N9Ct3dfA1dxv7NiJ8h2Dp0MG0hB73_eiSs7My5lqIoEXwT9hJk2mFZYw/exec"
+          method="POST"
+          target="hidden_iframe">
+
+
+          <input type="text" name="principal" placeholder="Nombre del invitado/a" required>
+          <input type="text" name="acompanante" placeholder="Nombre del acompañante (opcional)">
+          <input type="tel"  name="telefono" placeholder="Teléfono de contacto" required>
+
+          <button type="submit" class="btn outline">Confirmar asistencia</button>
+          <p id="form-msg" class="form-msg"></p>
+        </form>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
       </div>
 
       <p class="script-big">Nos encantará compartir este momento contigo</p>
-
     </section>
+
 
     <!-- CIERRE -->
     <section class="section">
